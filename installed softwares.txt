@@ -1,0 +1,4 @@
+1. otp_win64_24.0.exe
+2. rabbitmq-server-3.8.16.exe
+3. after that see the commands at imgMSDOS.png file
+4. and then access http://localhost:15672/#/
