@@ -65,13 +65,12 @@ namespace MicroRabbit.Infra.Bus
             if(_handlers[eventName].Any(s => s.GetType() == handlerType))
             {
                 throw new ArgumentException($"Handler Type {handlerType.Name} already is " +
-                    $"registerd for '{eventName}'", nameof(handlerType));
+                    $"registered for '{eventName}'", nameof(handlerType));
             }
 
             _handlers[eventName].Add(handlerType);
 
             StartBasicComsume<T>();
-
         }
 
         private void StartBasicComsume<T>() where T : Event
