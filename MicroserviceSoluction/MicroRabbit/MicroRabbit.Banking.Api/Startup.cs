@@ -31,7 +31,7 @@ namespace MicroRabbit.Banking.Api
         {
             services.AddDbContext<BankingDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+                options.UseSqlServer(Configuration.GetConnectionString("BankingDbConnection"));
             });
           
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
@@ -72,8 +72,6 @@ namespace MicroRabbit.Banking.Api
             });
 
             app.UseMvc();
-
-
         }
     }
 }

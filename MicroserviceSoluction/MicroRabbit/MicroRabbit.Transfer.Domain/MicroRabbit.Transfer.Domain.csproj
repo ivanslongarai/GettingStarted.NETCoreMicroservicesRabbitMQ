@@ -1,16 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="EventHandlers\" />
-    <Folder Include="CommandHandlers\" />
-    <Folder Include="Events\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Commands\" />
+		<Folder Include="CommandHandlers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MicroRabbit.Domain.Core\MicroRabbit.Domain.Core.csproj" />
+	</ItemGroup>
 
 </Project>
