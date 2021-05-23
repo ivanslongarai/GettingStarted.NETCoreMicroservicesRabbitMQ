@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
-  Data.DB, Datasnap.DBClient, Rest.Json, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Data.DB, Datasnap.DBClient, Rest.Json, Vcl.ComCtrls, uISLIDHttpDll;
 
 type
   TfrmMain = class(TForm)
@@ -62,7 +62,7 @@ var
 
 implementation
 
-uses uBanking.IdHTTP, uAccount, uTransfer;
+uses uAccount, uTransfer;
 
 {$R *.dfm}
 
@@ -72,7 +72,7 @@ var
   I: Integer;
 begin
   cdsAccounts.EmptyDataSet;
-  oAccountItems := TJson.JsonToObject<TAccountDTO>(TBankingIdHttp.Get(edtUrlBanking.Text));
+  oAccountItems := TJson.JsonToObject<TAccountDTO>('{"Items":' + TISLIDHttp.FGet(edtUrlBanking.Text, '', '') + '}');
   try
     for I := 0 to oAccountItems.Items.Count - 1 do
     begin
@@ -89,8 +89,7 @@ end;
 
 procedure TfrmMain.btnGetAccountsJsonResultClick(Sender: TObject);
 begin
-  Messagebox(Handle, PWideChar(TAccountDTO.PrettyPrintJSON(TBankingIdHttp.Get(edtUrlBanking.Text))),
-    'Information', MB_OK + MB_ICONINFORMATION);
+  Messagebox(Handle, PWideChar(TAccountDTO.PrettyPrintJSON('{"Items":' + TISLIDHttp.FGet(edtUrlBanking.Text, '', '') + '}')), 'Information', MB_OK + MB_ICONINFORMATION);
 end;
 
 procedure TfrmMain.btnGetTransfersClick(Sender: TObject);
@@ -99,7 +98,7 @@ var
   I: Integer;
 begin
   cdsTransfers.EmptyDataSet;
-  oTransferItems := TJson.JsonToObject<TTransferDTO>(TBankingIdHttp.Get(edtUrlTransfer.Text));
+  oTransferItems := TJson.JsonToObject<TTransferDTO>('{"Items":' + TISLIDHttp.FGet(edtUrlTransfer.Text, '', '') + '}');
   try
     for I := 0 to oTransferItems.Items.Count - 1 do
     begin
@@ -117,24 +116,26 @@ end;
 
 procedure TfrmMain.btnGetTransfersJsonResultClick(Sender: TObject);
 begin
-  Messagebox(Handle, PWideChar(TTransferDTO.PrettyPrintJSON(TBankingIdHttp.Get(edtUrlTransfer.Text))),
-    'Information', MB_OK + MB_ICONINFORMATION);
+  Messagebox(Handle, PWideChar(TTransferDTO.PrettyPrintJSON('{"Items":' + TISLIDHttp.FGet(edtUrlTransfer.Text, '', '') + '}')), 'Information', MB_OK + MB_ICONINFORMATION);
 end;
 
 procedure TfrmMain.btnPostClick(Sender: TObject);
 var
-  oTransfer : TTransfer;
+  oTransfer: TTransfer;
+  JsonToSend: TStringStream;
 begin
   oTransfer := TTransfer.Create;
   try
-    oTransfer.FromAccount:= StrToInt(edtFromAccount.Text);
-    oTransfer.ToAccount:= StrToInt(edtToAccount.Text);
-    oTransfer.TransferAmount:= StrToFloat(StringReplace(edtTransferAmount.Text, '.', ',', [rfReplaceAll]));
-    mmPost.Text:= '';
+    oTransfer.FromAccount := StrToInt(edtFromAccount.Text);
+    oTransfer.ToAccount := StrToInt(edtToAccount.Text);
+    oTransfer.TransferAmount := StrToFloat(StringReplace(edtTransferAmount.Text, '.', ',', [rfReplaceAll]));
+    mmPost.Text := '';
     mmPost.Lines.Add('Sent to RabbitMQ:');
     mmPost.Lines.Add('');
-    mmPost.Lines.Add(TBankingIdHttp.Post(edtUrlSendTransfer.Text, oTransfer));
+    JsonToSend := TStringStream.Create(TJson.ObjectToJsonString(oTransfer));
+    mmPost.Lines.Add(TISLIDHttp.FPost(edtUrlSendTransfer.Text, JsonToSend.DataString, '', ''));
   finally
+    FreeAndNil(JsonToSend);
     FreeAndNil(oTransfer);
   end;
 end;

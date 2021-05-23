@@ -4,9 +4,9 @@ uses
   Vcl.Forms,
   uMain in '..\Src\uMain.pas' {frmMain},
   Pkg.Json.DTO in '..\lib\Pkg.Json.DTO.pas',
-  uBanking.IdHttp in '..\lib\uBanking.IdHttp.pas',
   uAccount in '..\classes\uAccount.pas',
-  uTransfer in '..\classes\uTransfer.pas';
+  uTransfer in '..\classes\uTransfer.pas',
+  uISLIDHttpDll in '..\lib\uISLIDHttpDll.pas';
 
 {$R *.res}
 

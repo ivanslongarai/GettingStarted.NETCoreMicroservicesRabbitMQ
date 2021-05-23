@@ -113,10 +113,6 @@ object frmMain: TfrmMain
       object tabGetTransfers: TTabSheet
         Caption = 'GetTransfers'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 193
         object pnlTopTransfers: TPanel
           Left = 0
           Top = 0
@@ -124,7 +120,6 @@ object frmMain: TfrmMain
           Height = 41
           Align = alTop
           TabOrder = 0
-          ExplicitTop = 8
           object btnGetTransfers: TButton
             Left = 8
             Top = 8
@@ -161,8 +156,6 @@ object frmMain: TfrmMain
           Align = alClient
           BorderWidth = 10
           TabOrder = 1
-          ExplicitWidth = 427
-          ExplicitHeight = 121
           object DBGrid1: TDBGrid
             Left = 11
             Top = 11
@@ -207,10 +200,6 @@ object frmMain: TfrmMain
       object tabPost: TTabSheet
         Caption = 'Posting Banking Transfers through Rest C# API into RabbitMQ'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 427
-        ExplicitHeight = 162
         object pnlTopPostBanking: TPanel
           Left = 0
           Top = 0
@@ -288,9 +277,6 @@ object frmMain: TfrmMain
           BorderWidth = 10
           Caption = 'pnlClientTabPost'
           TabOrder = 1
-          ExplicitTop = 45
-          ExplicitWidth = 427
-          ExplicitHeight = 117
           object mmPost: TMemo
             Left = 11
             Top = 11
@@ -299,8 +285,6 @@ object frmMain: TfrmMain
             Align = alClient
             ReadOnly = True
             TabOrder = 0
-            ExplicitWidth = 405
-            ExplicitHeight = 95
           end
         end
       end
